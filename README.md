@@ -1,12 +1,10 @@
 # Flutter尝鲜
 
-每天一点点，快乐你我他。
+每天一点点，快乐多一点。
 
 ##### 热重载 
 
 与webpack一样，修改后执行重新加载能快速在模拟机上看到。
-
-
 
 ## 环境布置 Flutter 到 AS 中
 
@@ -44,11 +42,14 @@
 
 需要全局变量ANDROID_HOME来设置地址，如果未配置，local.properties的路径会自动修改到默认路径。
 
+问题2 Waiting for another flutter command to release the startup lock...
 
-Flutter中文网进度：https://flutterchina.club/get-started/codelab/ 
+项目异常关闭后，启动会出现上面一行话，需要删除以下目录文件重新运行
+
+ 	flutter/bin/cache/lockfile
 
 
-
+Flutter中文网进度：https://flutterchina.club/get-started/learn-more/
 
 
 
