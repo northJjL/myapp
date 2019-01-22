@@ -56,8 +56,9 @@
     assets:
     - images/logo.png
 
-Flutter中文网进度：https://flutterchina.club/tutorials/layout/
-Flutter官网进度：https://flutter.io/docs/development/ui/layout/tutorial
+Flutter中文网进度：https://flutterchina.club/tutorials/interactive/
+
+Flutter官网进度：https://flutter.io/docs/development/ui/interactive
 
 
 

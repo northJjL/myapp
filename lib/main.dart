@@ -3,9 +3,301 @@ import 'package:english_words/english_words.dart';
 
 void main() => runApp(new MyApp());
 
+/*—————————————————————————————常用布局widgets—————————————————————————*/
 
-/*—————————————————————————————页面布局—————————————————————————*/
 class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'title',
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text('title'),
+          ),
+          body: card,
+        ));
+  }
+}
+var card = new SizedBox(
+  height: 210.0,
+  child: new Card(
+    child: new Column(
+      children: [
+        new ListTile(
+          title: new Text('1625 Main Street',
+              style: new TextStyle(fontWeight: FontWeight.w500)),
+          subtitle: new Text('My City, CA 99984'),
+          leading: new Icon(
+            Icons.restaurant_menu,
+            color: Colors.blue[500],
+          ),
+        ),
+        new Divider(),
+        new ListTile(
+          title: new Text('(408) 555-1212',
+              style: new TextStyle(fontWeight: FontWeight.w500)),
+          leading: new Icon(
+            Icons.contact_phone,
+            color: Colors.blue[500],
+          ),
+        ),
+        new ListTile(
+          title: new Text('costa@example.com'),
+          leading: new Icon(
+            Icons.contact_mail,
+            color: Colors.blue[500],
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
+
+var stack = Stack(
+  alignment: const Alignment(0.6, 0.6),
+  children: [
+    CircleAvatar(
+      backgroundImage: AssetImage('images/pic3.jpg'),
+      radius: 100.0,
+    ),
+    Container(
+      padding: EdgeInsets.only(top: 50.0),
+      child: Text(
+        'Mia B',
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    ),
+    Container(
+      child: Text(
+        'Mia B',
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.amberAccent,
+        ),
+      ),
+    ),
+  ],
+);
+
+List<Widget> list = <Widget>[
+  ListTile(
+    title: Text('456'),
+  ),
+];
+
+//buildGrid
+//_buildGridTileList
+
+List<Widget> _buildGridTileList(int length) {
+  return List<Widget>.generate(length, (int index) {
+    return Container(
+      child: Image.asset('images/pic${1}.jpg'), //index +
+//    child: Text('images/pic${index + 1}.jpg'),
+    );
+  });
+}
+
+Widget buildGrid() {
+  return GridView.count(
+    crossAxisCount: 4,
+    mainAxisSpacing: 4.0,
+    crossAxisSpacing: 4.0,
+    padding: EdgeInsets.all(4.0),
+    children: _buildGridTileList(30),
+  );
+}
+
+/*List<Container> _buildGridTileList(int count) {
+  return List<Container>.generate(
+  count,
+  (int index) =>
+  Container(child: Image.asset('images/pic${1}.jpg')));
+}
+
+Widget buildGrid() {
+  return GridView.extent(
+      maxCrossAxisExtent: 150.0,
+      padding: const EdgeInsets.all(4.0),
+      mainAxisSpacing: 4.0,
+      crossAxisSpacing: 4.0,
+      children: _buildGridTileList(30));
+}*/
+
+/*—————————————————————————————页面布局2—————————————————————————*/
+/*class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: MyHomePage(title: 'Strawberry Pavlova Recipe'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    var titleText = Container(
+      padding: EdgeInsets.all(20.0),
+      child: Text(
+        'Strawberry Pavlova',
+        style: TextStyle(
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.5,
+          fontSize: 30.0,
+        ),
+      ),
+    );
+
+    var subTitle = Text(
+      '''
+Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlova. Pavlova features a crisp crust and soft, light inside, topped with fruit and whipped cream.
+''',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontFamily: 'Georgia',
+        fontSize: 25.0,
+      ),
+    );
+
+    Widget ratings = Container(
+      padding: EdgeInsets.all(20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.star, color: Colors.black),
+              Icon(Icons.star, color: Colors.black),
+              Icon(Icons.star, color: Colors.black),
+              Icon(Icons.star, color: Colors.black),
+              Icon(Icons.star, color: Colors.black),
+            ],
+          ),
+          Text(
+            '170 Reviews',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+              fontFamily: 'Roboto',
+              letterSpacing: 0.5,
+              fontSize: 20.0,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    var descTextStyle = TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w800,
+      fontFamily: 'Roboto',
+      letterSpacing: 0.5,
+      fontSize: 18.0,
+      height: 2.0,
+    );
+
+    // DefaultTextStyle.merge allows you to create a default text
+    // style that is inherited by its child and all subsequent children.
+    var iconList = DefaultTextStyle.merge(
+      style: descTextStyle,
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              children: [
+                Icon(Icons.kitchen, color: Colors.green[500]),
+                Text('PREP:'),
+                Text('25 min'),
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.timer, color: Colors.green[500]),
+                Text('COOK:'),
+                Text('1 hr'),
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.restaurant, color: Colors.green[500]),
+                Text('FEEDS:'),
+                Text('4-6'),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+
+    Widget leftColumn = Container(
+      padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
+      child: ListView(
+        children: [
+          titleText,
+          subTitle,
+          ratings,
+          iconList,
+        ],
+      ),
+    );
+
+    Widget mainImage = Expanded(
+      child: Image.asset(
+        'images/pavlova.jpg',
+        fit: BoxFit.cover,
+      ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Container(
+          margin: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 30.0),
+          height: 600.0,
+          child: Card(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 440.0,
+                  child: leftColumn,
+                ),
+                mainImage,
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}*/
+
+/*—————————————————————————————页面布局1—————————————————————————*/
+/*class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).primaryColor;
@@ -106,7 +398,7 @@ Column _buildButtonColumn(Color color, IconData icon, String str) {
       ),
     ],
   );
-}
+}*/
 
 /*—————————————————————————————选中列表跳转—————————————————————————*/
 
