@@ -48,8 +48,16 @@
 
  	flutter/bin/cache/lockfile
 
+问题3 pubspec.yaml导入图片时，格式不正确造成导入失败
 
-Flutter中文网进度：https://flutterchina.club/get-started/learn-more/
+以下三个需要左对齐
+
+    uses-material-design: true
+    assets:
+    - images/logo.png
+
+Flutter中文网进度：https://flutterchina.club/tutorials/layout/
+Flutter官网进度：https://flutter.io/docs/development/ui/layout/tutorial
 
 
 
