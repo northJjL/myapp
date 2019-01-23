@@ -2,10 +2,115 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
 void main() => runApp(new MyApp());
+/*—————————————————————————————显示选中条目列表—————————————————————————*/
+class MyApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'shoppingList',
+      home: ShoppingList(
+        product: <Product>[
+          new Product(name: 'Eggs'),
+          new Product(name: 'Flour'),
+          new Product(name: 'Chocolate chips'),
+        ],
+      ),
+    );
+  }
+}
+
+class Product{
+  const Product({this.name});
+  final String name;
+}
+//ShoppingListItem
+//ShoppingList
+//_ShoppingListState
+class ShoppingList extends StatefulWidget{
+  ShoppingList({this.product ,Key key}) : super(key:key);
+  final List<Product> product;
+  createState() => _ShoppingListState();
+}
+
+class _ShoppingListState extends State<ShoppingList>{
+  Set<Product> _shoppingCart = new Set<Product>();
+
+  void _handleCartChanged(Product product ,bool isCart){
+    setState(() {
+      if(isCart){
+        _shoppingCart.add(product);
+      }else{
+        _shoppingCart.remove(product);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('shoppingList'),
+      ),
+      body: ListView(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        children: widget.product.map((Product product){
+          return ShoppingListItem(
+            product: product,
+            callback: _handleCartChanged,
+            inCart: _shoppingCart.contains(product),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+typedef void CartChangedCallback(Product product ,bool isCart);
+
+class ShoppingListItem extends StatelessWidget{
+  ShoppingListItem({Product product , this.inCart,this.callback ,})
+  : product = product ,super(key :new ObjectKey(product));
+
+  final Product product;
+  final bool inCart;
+  final CartChangedCallback callback;
+
+  Color _getColor(BuildContext context) {
+    // The theme depends on the BuildContext because different parts of the tree
+    // can have different themes.  The BuildContext indicates where the build is
+    // taking place and therefore which theme to use.
+
+    return inCart ? Colors.black54 : Theme.of(context).primaryColor;
+  }
+
+  TextStyle _getTextStyle(BuildContext context) {
+    if (!inCart) return null;
+
+    return new TextStyle(
+      color: Colors.black54,
+      decoration: TextDecoration.lineThrough,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: (){
+        callback(product ,!inCart);
+      },
+      leading:  new CircleAvatar(
+        backgroundColor: _getColor(context),
+        child: Text(product.name[0]),
+      ),
+      title: Text(product.name ,
+      style: _getTextStyle(context),),
+    );
+  }
+}
 
 /*—————————————————————————————常用布局widgets—————————————————————————*/
 
-class MyApp extends StatelessWidget {
+/*class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -111,7 +216,7 @@ Widget buildGrid() {
     padding: EdgeInsets.all(4.0),
     children: _buildGridTileList(30),
   );
-}
+}*/
 
 /*List<Container> _buildGridTileList(int count) {
   return List<Container>.generate(
@@ -296,7 +401,7 @@ Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlo
   }
 }*/
 
-/*—————————————————————————————页面布局1—————————————————————————*/
+/*—————————————————————————————页面布局1 （添加点击事件）—————————————————————————*/
 /*class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -369,16 +474,86 @@ Widget titleSection = Container(
           ],
         ),
       ),
-      Icon(
-        Icons.star,
-        color: Colors.red[500],
-      ),
-      Text(
-        '41',
-      )
+      ParentWidget(),
     ],
   ),
 );
+
+class ParentWidget extends StatefulWidget {
+  @override
+  _ParentWidgetState createState() => new _ParentWidgetState();
+}
+
+class _ParentWidgetState extends State<ParentWidget> {
+  bool _active = false;
+  int _favoriteCount = 40;
+
+  void _handleTapboxChanged(bool newValue) {
+    setState(() {
+      if(_active){
+        _favoriteCount -= 1;
+      }else{
+        _favoriteCount += 1;
+      }
+      _active = newValue;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      child: new FavoriteWidget(
+        active: _active,
+        favoriteCount: _favoriteCount,
+        onChanged: _handleTapboxChanged,
+      ),
+    );
+  }
+}
+
+class FavoriteWidget extends StatefulWidget{
+  FavoriteWidget({Key key, this.active: false, this.favoriteCount:40 , @required this.onChanged})
+      : super(key: key);
+
+  final bool active;
+  final ValueChanged<bool> onChanged;
+  final int favoriteCount;
+  createState() => _FavoriteWidgetState();
+}
+
+class _FavoriteWidgetState extends State<FavoriteWidget>{
+//  bool _isFavorited = true;
+
+  void _toggleFavorite(){
+    widget.onChanged(!widget.active);
+//    setState(() {
+//      if(_isFavorited){
+//        _favoriteCount -= 1;
+//      }else{
+//        _favoriteCount += 1;
+//      }
+//      _isFavorited = !_isFavorited;
+//    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    int _favoriteCount = widget.favoriteCount;
+    return Container(
+      child: Row(
+        children: <Widget>[
+          IconButton(icon: widget.active ?Icon(Icons.star) :Icon(Icons.star_border),
+//          IconButton(icon: _isFavorited ?Icon(Icons.star) :Icon(Icons.star_border),
+            color: Colors.red[500] ,
+          onPressed: _toggleFavorite,),
+          SizedBox(
+            width: 18.0,
+            child: Text('$_favoriteCount'),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 Column _buildButtonColumn(Color color, IconData icon, String str) {
   return new Column(
