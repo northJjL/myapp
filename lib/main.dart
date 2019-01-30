@@ -109,8 +109,8 @@ class ShoppingListItem extends StatelessWidget{
 }
 
 /*—————————————————————————————常用布局widgets—————————————————————————*/
-
-/*class MyApp extends StatelessWidget {
+/*
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -216,9 +216,9 @@ Widget buildGrid() {
     padding: EdgeInsets.all(4.0),
     children: _buildGridTileList(30),
   );
-}*/
+}
 
-/*List<Container> _buildGridTileList(int count) {
+List<Container> _buildGridTileList(int count) {
   return List<Container>.generate(
   count,
   (int index) =>
@@ -400,7 +400,6 @@ Pavlova is a meringue-based dessert named after the Russian ballerina Anna Pavlo
     );
   }
 }*/
-
 /*—————————————————————————————页面布局1 （添加点击事件）—————————————————————————*/
 /*class MyApp extends StatelessWidget {
   @override
@@ -479,60 +478,69 @@ Widget titleSection = Container(
   ),
 );
 
-class ParentWidget extends StatefulWidget {
-  @override
-  _ParentWidgetState createState() => new _ParentWidgetState();
+class ParentWidget extends StatefulWidget{
+  createState() => ParentState();
 }
 
-class _ParentWidgetState extends State<ParentWidget> {
-  bool _active = false;
+class ParentState extends State<ParentWidget>{
+  bool _isFavorited = true;
   int _favoriteCount = 40;
-
-  void _handleTapboxChanged(bool newValue) {
-    setState(() {
-      if(_active){
-        _favoriteCount -= 1;
-      }else{
-        _favoriteCount += 1;
-      }
-      _active = newValue;
-    });
-  }
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new FavoriteWidget(
-        active: _active,
-        favoriteCount: _favoriteCount,
-        onChanged: _handleTapboxChanged,
-      ),
+    return FavoriteWidget(
+      favoriteCount: _favoriteCount,
+      boolChanged: _handleTapboxChanged,
+      isFavorited: _isFavorited,
     );
+  }
+
+  void _handleTapboxChanged(bool _isFavorited){
+   setState(() {
+     if(_isFavorited){
+       _favoriteCount -= 1;
+     }else{
+       _favoriteCount += 1;
+     }
+
+     this._isFavorited = !_isFavorited;
+   });
   }
 }
 
-class FavoriteWidget extends StatefulWidget{
-  FavoriteWidget({Key key, this.active: false, this.favoriteCount:40 , @required this.onChanged})
-      : super(key: key);
+typedef BoolChanged(bool isFavorit);
 
-  final bool active;
-  final ValueChanged<bool> onChanged;
+
+class FavoriteWidget extends StatefulWidget{
+//  FavoriteWidget({Key key, this.active: false, this.favoriteCount , @required this.onChanged})
+//      : super(key: key);
+//
+//  final bool active;
+//  final ValueChanged<bool> onChanged;
+//  final int favoriteCount;
+
+  FavoriteWidget({Key key ,this.favoriteCount ,this.isFavorited ,this.boolChanged}):super(key:key);
+  final bool isFavorited;
   final int favoriteCount;
+  final BoolChanged boolChanged;
+
   createState() => _FavoriteWidgetState();
 }
 
 class _FavoriteWidgetState extends State<FavoriteWidget>{
 //  bool _isFavorited = true;
+//  int _favoriteCount = 40;
 
   void _toggleFavorite(){
-    widget.onChanged(!widget.active);
-//    setState(() {
-//      if(_isFavorited){
-//        _favoriteCount -= 1;
-//      }else{
-//        _favoriteCount += 1;
-//      }
-//      _isFavorited = !_isFavorited;
-//    });
+    widget.boolChanged(widget.isFavorited);
+//    widget.onChanged(!widget.active);
+    *//*setState(() {
+      if(_isFavorited){
+        _favoriteCount -= 1;
+      }else{
+        _favoriteCount += 1;
+      }
+      _isFavorited = !_isFavorited;
+    });*//*
   }
 
   @override
@@ -541,7 +549,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget>{
     return Container(
       child: Row(
         children: <Widget>[
-          IconButton(icon: widget.active ?Icon(Icons.star) :Icon(Icons.star_border),
+          IconButton(icon: widget.isFavorited ?Icon(Icons.star) :Icon(Icons.star_border),
 //          IconButton(icon: _isFavorited ?Icon(Icons.star) :Icon(Icons.star_border),
             color: Colors.red[500] ,
           onPressed: _toggleFavorite,),
@@ -576,7 +584,6 @@ Column _buildButtonColumn(Color color, IconData icon, String str) {
 }*/
 
 /*—————————————————————————————选中列表跳转—————————————————————————*/
-
 /*class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

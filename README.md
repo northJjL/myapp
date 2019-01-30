@@ -36,19 +36,19 @@
 
 ### 部署遇到的问题：
 
-问题1：初次启动项目，提示以下信息
+##### 问题1：初次启动项目，提示以下信息
 
 	Finished with error: Please review your Gradle project setup in the android/folder.
 
 需要全局变量ANDROID_HOME来设置地址，如果未配置，local.properties的路径会自动修改到默认路径。
 
-问题2 Waiting for another flutter command to release the startup lock...
+##### 问题2 Waiting for another flutter command to release the startup lock...
 
 项目异常关闭后，启动会出现上面一行话，需要删除以下目录文件重新运行
 
  	flutter/bin/cache/lockfile
 
-问题3 pubspec.yaml导入图片时，格式不正确造成导入失败
+##### 问题3 pubspec.yaml导入图片时，格式不正确造成导入失败
 
 以下三个需要左对齐
 
@@ -56,9 +56,9 @@
     assets:
     - images/logo.png
 
-Flutter中文网进度：https://flutterchina.club/tutorials/interactive/
+Flutter中文网进度：https://flutterchina.club/widgets/
 
-Flutter官网进度：https://flutter.io/docs/development/ui/interactive
+Flutter官网进度：https://flutter.io/docs/development/ui/widgets
 
 
 
